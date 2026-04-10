@@ -5,9 +5,9 @@ to run this, have two separate terminal
 cd backend\
 pip install -r requirements.txt\
 python -m spacy download en_core_web_sm\
-uvicorn main:app --reload\
+uvicorn main:app --reload
 
 ## terminal #2:
 cd frontend\
 npm install\
-npm run dev\
+npm run dev
