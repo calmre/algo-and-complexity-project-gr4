@@ -19,7 +19,8 @@ export default function App() {
   const [tasks, setTasks] = useState([])
   const [categories, setCategories] = useState([])
   const [displayMode, setDisplayMode] = useState('list')
-  const [currentDate] = useState(dayjs())
+  const [timeView, setTimeView] = useState('day')
+  const [currentDate, setCurrentDate] = useState(dayjs())
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const [taskFilter, setTaskFilter] = useState('upcoming') // 'upcoming' | 'past'
