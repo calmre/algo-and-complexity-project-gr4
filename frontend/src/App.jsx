@@ -4,6 +4,7 @@ import TaskList from './components/TaskList'
 import CalendarView from './components/CalendarView'
 import FloatingButton from './components/FloatingButton'
 import AddTaskModal from './components/AddTaskModal'
+import Login from './components/Login'
 import { getTasks, getAllTasks, updateTask, deleteTask, getCategories } from './api'
 import { linearFilterByCategory, mergeSort, binarySearchByTitle, fuzzySearch } from './algorithms'
 import './App.css'
@@ -15,6 +16,7 @@ const SORT_OPTIONS = [
 ]
 
 export default function App() {
+  const [token, setToken] = useState(() => localStorage.getItem('token'))
   const [tasks, setTasks] = useState([])
   const [categories, setCategories] = useState([])
   const [timeView, setTimeView] = useState('day')
@@ -29,19 +31,38 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const fetchTasks = useCallback(async () => {
+    if (!token) return
     setLoading(true)
     try {
       const data = displayMode === 'calendar'
         ? await getAllTasks()
         : await getTasks(timeView, currentDate.toDate())
       setTasks(data)
+    } catch (err) {
+      if (err.response?.status === 401) handleLogout()
     } finally {
       setLoading(false)
     }
-  }, [timeView, currentDate, displayMode])
+  }, [timeView, currentDate, displayMode, token])
 
-  useEffect(() => { fetchTasks() }, [fetchTasks])
-  useEffect(() => { getCategories().then(setCategories) }, [])
+  useEffect(() => {
+    if (token) fetchTasks()
+  }, [fetchTasks, token])
+
+  useEffect(() => {
+    if (token) getCategories().then(setCategories)
+  }, [token])
+
+  const handleLogin = (newToken) => {
+    localStorage.setItem('token', newToken)
+    setToken(newToken)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    setToken(null)
+    setTasks([])
+  }
 
   // Apply algorithms in sequence: linear filter → merge sort → binary/fuzzy search
   const processedTasks = useMemo(() => {
@@ -85,6 +106,10 @@ export default function App() {
     return currentDate.format('MMMM YYYY')
   }
 
+  if (!token) {
+    return <Login setAuthAction={handleLogin} />
+  }
+
   return (
     <div className="app">
       <header className="app-header">
@@ -103,6 +128,7 @@ export default function App() {
               ))}
             </div>
           )}
+          <button className="logout-btn" onClick={handleLogout}>Log Out</button>
         </div>
       </header>
 

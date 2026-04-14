@@ -1,0 +1,121 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #0f0f13; /* Matches main app background */
+  font-family: inherit;
+}
+
+.login-card {
+  background: #1a1a28; /* Match toggle bar background */
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid #2a2a3a;
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #c8b8ff; /* Match App.css header h1 color */
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.dialogue {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+
+.error-dialogue {
+  color: #ffb3b3;
+  background: rgba(229, 62, 62, 0.15);
+  border: 1px solid rgba(229, 62, 62, 0.3);
+}
+
+.success-dialogue {
+  color: #68d391;
+  background: rgba(104, 211, 145, 0.1);
+  border: 1px solid rgba(104, 211, 145, 0.2);
+}
+
+.input-group {
+  margin-bottom: 1.25rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #a0aec0;
+  font-size: 0.95rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #0f0f13;
+  border: 1px solid #2a2a3a;
+  border-radius: 6px;
+  color: #e8e8f0;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #6c5ce7;
+}
+
+.input-group input::placeholder {
+  color: #4a5568;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: #6c5ce7; /* Match active buttons */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submit-btn:hover {
+  background: #5a4bcf;
+}
+
+.toggle-mode {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.toggle-mode button {
+  background: none;
+  border: none;
+  color: #c8b8ff;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 0.25rem;
+  font-size: 0.9rem;
+  transition: filter 0.2s;
+}
+
+.toggle-mode button:hover {
+  filter: brightness(1.2);
+}
