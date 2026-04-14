@@ -6,3 +6,5 @@ speechrecognition
 spacy
 python-multipart
 pyaudio
+python-jose[cryptography]
+passlib[bcrypt]
