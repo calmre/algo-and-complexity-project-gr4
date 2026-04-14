@@ -24,6 +24,22 @@
   align-items: center;
 }
 
+.logout-btn {
+  background: transparent;
+  border: 1px solid #ff4757;
+  color: #ff4757;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+
+.logout-btn:hover {
+  background: #ff4757;
+  color: white;
+}
+
 .display-toggle, .time-toggle {
   display: flex;
   background: var(--toggle-bg);
