@@ -9,13 +9,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px 0 16px;
-  border-bottom: 1px solid #2a2a3a;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .app-header h1 {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #c8b8ff;
+  color: var(--text-heading);
 }
 
 .header-controls {
@@ -26,7 +26,7 @@
 
 .display-toggle, .time-toggle {
   display: flex;
-  background: #1a1a28;
+  background: var(--toggle-bg);
   border-radius: 8px;
   padding: 3px;
   gap: 2px;
@@ -35,7 +35,7 @@
 .display-toggle button, .time-toggle button {
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-muted);
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
@@ -43,9 +43,14 @@
   transition: all 0.15s;
 }
 
+.display-toggle button:disabled, .time-toggle button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 .display-toggle button.active, .time-toggle button.active {
-  background: #6c5ce7;
-  color: #fff;
+  background: var(--toggle-active-bg);
+  color: var(--toggle-active-text);
 }
 
 .date-nav {
@@ -54,14 +59,14 @@
   justify-content: center;
   gap: 20px;
   padding: 16px 0;
-  color: #aaa;
+  color: var(--text-secondary);
   font-size: 0.95rem;
 }
 
 .date-nav button {
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-muted);
   font-size: 1.4rem;
   cursor: pointer;
   padding: 4px 10px;
@@ -69,13 +74,13 @@
   transition: background 0.15s;
 }
 
-.date-nav button:hover { background: #2a2a3a; }
+.date-nav button:hover { background: var(--border-subtle); }
 
 .app-main { padding-top: 8px; }
 
 .loading {
   text-align: center;
-  color: #666;
+  color: var(--text-faint);
   padding: 60px;
 }
 
@@ -90,17 +95,17 @@
 .search-input {
   flex: 1;
   min-width: 160px;
-  background: #1a1a28;
-  border: 1px solid #2a2a3a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  color: #e0e0f0;
+  color: var(--text-primary);
   padding: 8px 12px;
   font-size: 0.875rem;
   outline: none;
   transition: border-color 0.15s;
 }
 
-.search-input:focus { border-color: #6c5ce7; }
+.search-input:focus { border-color: var(--accent); }
 
 .toolbar-right {
   display: flex;
@@ -108,10 +113,10 @@
 }
 
 .toolbar-select {
-  background: #1a1a28;
-  border: 1px solid #2a2a3a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  color: #aaa;
+  color: var(--text-secondary);
   padding: 8px 10px;
   font-size: 0.8rem;
   outline: none;
@@ -119,4 +124,4 @@
   transition: border-color 0.15s;
 }
 
-.toolbar-select:focus { border-color: #6c5ce7; }
+.toolbar-select:focus { border-color: var(--accent); }

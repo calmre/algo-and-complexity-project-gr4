@@ -8,7 +8,6 @@ import { getTasks, getAllTasks, updateTask, deleteTask, getCategories } from './
 import { linearFilterByCategory, mergeSort, binarySearchByTitle, fuzzySearch } from './algorithms'
 import './App.css'
 
-const VIEWS = ['day', 'week', 'month']
 const SORT_OPTIONS = [
   { value: 'due_date', label: 'Due Date' },
   { value: 'title',    label: 'Title' },
@@ -17,11 +16,11 @@ const SORT_OPTIONS = [
 export default function App() {
   const [tasks, setTasks] = useState([])
   const [categories, setCategories] = useState([])
-  const [timeView, setTimeView] = useState('day')
   const [displayMode, setDisplayMode] = useState('list')
-  const [currentDate, setCurrentDate] = useState(dayjs())
+  const [currentDate] = useState(dayjs())
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [taskFilter, setTaskFilter] = useState('upcoming') // 'upcoming' | 'past'
 
   // Filter / sort / search state
   const [activeCategory, setActiveCategory] = useState('All')
@@ -33,12 +32,12 @@ export default function App() {
     try {
       const data = displayMode === 'calendar'
         ? await getAllTasks()
-        : await getTasks(timeView, currentDate.toDate())
+        : await getTasks('day', currentDate.toDate())
       setTasks(data)
     } finally {
       setLoading(false)
     }
-  }, [timeView, currentDate, displayMode])
+  }, [currentDate, displayMode])
 
   useEffect(() => { fetchTasks() }, [fetchTasks])
   useEffect(() => { getCategories().then(setCategories) }, [])
@@ -60,6 +59,28 @@ export default function App() {
     return result
   }, [tasks, activeCategory, sortKey, searchQuery])
 
+  // Split today's tasks into upcoming and past based on due_date vs now
+  const now = dayjs()
+  const upcomingTasks = useMemo(
+    () => processedTasks.filter(t => !t.due_date || dayjs(t.due_date).isAfter(now)),
+    [processedTasks]
+  )
+  const pastTasks = useMemo(
+    () => processedTasks.filter(t => t.due_date && !dayjs(t.due_date).isAfter(now)),
+    [processedTasks]
+  )
+
+  const hasUpcoming = upcomingTasks.length > 0
+  const hasPast = pastTasks.length > 0
+  const visibleTasks = taskFilter === 'upcoming' ? upcomingTasks : pastTasks
+
+  // Auto-switch to the side that has tasks if current side is empty
+  useEffect(() => {
+    if (displayMode !== 'list') return
+    if (taskFilter === 'upcoming' && !hasUpcoming && hasPast) setTaskFilter('past')
+    if (taskFilter === 'past' && !hasPast && hasUpcoming) setTaskFilter('upcoming')
+  }, [hasUpcoming, hasPast, taskFilter, displayMode])
+
   const handleToggle = async (task) => {
     const updated = await updateTask(task.id, { completed: !task.completed })
     setTasks(prev => prev.map(t => t.id === updated.id ? updated : t))
@@ -68,21 +89,6 @@ export default function App() {
   const handleDelete = async (id) => {
     await deleteTask(id)
     setTasks(prev => prev.filter(t => t.id !== id))
-  }
-
-  const navigate = (dir) => {
-    const unit = timeView === 'day' ? 'day' : timeView === 'week' ? 'week' : 'month'
-    setCurrentDate(prev => dir === 'next' ? prev.add(1, unit) : prev.subtract(1, unit))
-  }
-
-  const dateLabel = () => {
-    if (timeView === 'day') return currentDate.format('dddd, MMMM D YYYY')
-    if (timeView === 'week') {
-      const start = currentDate.startOf('week')
-      const end = currentDate.endOf('week')
-      return `${start.format('MMM D')} – ${end.format('MMM D, YYYY')}`
-    }
-    return currentDate.format('MMMM YYYY')
   }
 
   return (
@@ -96,11 +102,20 @@ export default function App() {
           </div>
           {displayMode === 'list' && (
             <div className="time-toggle">
-              {VIEWS.map(v => (
-                <button key={v} className={timeView === v ? 'active' : ''} onClick={() => setTimeView(v)}>
-                  {v.charAt(0).toUpperCase() + v.slice(1)}
-                </button>
-              ))}
+              <button
+                className={taskFilter === 'upcoming' ? 'active' : ''}
+                onClick={() => setTaskFilter('upcoming')}
+                disabled={!hasUpcoming}
+              >
+                Upcoming
+              </button>
+              <button
+                className={taskFilter === 'past' ? 'active' : ''}
+                onClick={() => setTaskFilter('past')}
+                disabled={!hasPast}
+              >
+                Past
+              </button>
             </div>
           )}
         </div>
@@ -139,9 +154,7 @@ export default function App() {
 
       {displayMode === 'list' && (
         <div className="date-nav">
-          <button onClick={() => navigate('prev')}>‹</button>
-          <span>{dateLabel()}</span>
-          <button onClick={() => navigate('next')}>›</button>
+          <span>{currentDate.format('dddd, MMMM D YYYY')}</span>
         </div>
       )}
 
@@ -149,7 +162,9 @@ export default function App() {
         {loading ? (
           <div className="loading">Loading...</div>
         ) : displayMode === 'list' ? (
-          <TaskList tasks={processedTasks} onToggle={handleToggle} onDelete={handleDelete} />
+          visibleTasks.length > 0
+            ? <TaskList tasks={visibleTasks} onToggle={handleToggle} onDelete={handleDelete} />
+            : <div className="empty-state">No {taskFilter} tasks for today.</div>
         ) : (
           <CalendarView tasks={processedTasks} onToggle={handleToggle} onDelete={handleDelete} />
         )}

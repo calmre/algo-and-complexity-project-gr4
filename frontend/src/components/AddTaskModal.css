@@ -10,8 +10,8 @@
 }
 
 .modal {
-  background: #1a1a28;
-  border: 1px solid #3a3a52;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 14px;
   padding: 24px;
   width: 100%;
@@ -26,57 +26,63 @@
   margin-bottom: 20px;
 }
 
-.modal-header h2 { font-size: 1.1rem; color: #c8b8ff; }
+.modal-header h2 { font-size: 1.1rem; color: var(--text-heading); }
+
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mic-btn {
+  background: var(--bg-surface-deep);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  padding: 0;
+}
+
+.mic-btn:hover { background: var(--border-subtle); color: var(--text-primary); }
+
+.mic-btn.recording {
+  background: rgba(231, 76, 60, 0.13);
+  border-color: var(--danger);
+  color: var(--danger);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
 
 .modal-close {
   background: none;
   border: none;
-  color: #666;
+  color: var(--text-faint);
   font-size: 1rem;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
 }
 
-.modal-close:hover { color: #aaa; }
+.modal-close:hover { color: var(--text-secondary); }
 
-.voice-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-  padding: 12px;
-  background: #12121e;
-  border-radius: 8px;
+.voice-status {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  padding: 6px 10px;
+  background: var(--bg-surface-deep);
+  border-radius: 6px;
 }
-
-.voice-btn {
-  background: #2a2a3a;
-  border: 1px solid #3a3a52;
-  color: #ccc;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  transition: all 0.15s;
-}
-
-.voice-btn:hover { background: #3a3a52; }
-
-.voice-btn.recording {
-  background: #e74c3c22;
-  border-color: #e74c3c;
-  color: #e74c3c;
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-.voice-status { font-size: 0.8rem; color: #888; }
 
 .task-form { display: flex; flex-direction: column; gap: 14px; }
 
@@ -85,16 +91,16 @@
   flex-direction: column;
   gap: 6px;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .task-form input, .task-form textarea, .task-form select {
-  background: #12121e;
-  border: 1px solid #2a2a3a;
+  background: var(--bg-surface-deep);
+  border: 1px solid var(--border-subtle);
   border-radius: 8px;
-  color: #e0e0f0;
+  color: var(--text-primary);
   padding: 10px 12px;
   font-size: 0.9rem;
   font-family: inherit;
@@ -104,8 +110,111 @@
 }
 
 .task-form input:focus, .task-form textarea:focus, .task-form select:focus {
-  border-color: #6c5ce7;
+  border-color: var(--accent);
 }
+
+/* Due date row: input + clear button side by side */
+.due-date-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.due-date-row input {
+  flex: 1;
+  cursor: pointer;
+}
+
+.due-date-clear {
+  background: none;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.due-date-clear:hover { border-color: var(--danger); color: var(--danger); }
+
+/* Date confirm popover */
+.date-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.date-confirm-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 280px;
+}
+
+.date-confirm-box p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.date-confirm-box input[type="datetime-local"] {
+  background: var(--bg-surface-deep);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.date-confirm-box input[type="datetime-local"]:focus {
+  border-color: var(--accent);
+}
+
+.date-confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.date-confirm-actions .btn-cancel {
+  background: none;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.date-confirm-actions .btn-cancel:hover { border-color: var(--border-hover); color: var(--text-secondary); }
+
+.date-confirm-actions .btn-ok {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 8px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.date-confirm-actions .btn-ok:hover { background: var(--accent-hover); }
 
 .modal-actions {
   display: flex;
@@ -116,18 +225,18 @@
 
 .btn-cancel {
   background: none;
-  border: 1px solid #2a2a3a;
-  color: #888;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
   padding: 9px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
 }
 
-.btn-cancel:hover { border-color: #4a4a6a; color: #ccc; }
+.btn-cancel:hover { border-color: var(--border-hover); color: var(--text-secondary); }
 
 .btn-save {
-  background: #6c5ce7;
+  background: var(--accent);
   border: none;
   color: #fff;
   padding: 9px 24px;
@@ -137,5 +246,5 @@
   transition: background 0.15s;
 }
 
-.btn-save:hover:not(:disabled) { background: #7d6ef0; }
+.btn-save:hover:not(:disabled) { background: var(--accent-hover); }
 .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }

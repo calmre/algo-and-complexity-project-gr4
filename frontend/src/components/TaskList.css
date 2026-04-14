@@ -1,6 +1,6 @@
 .empty-state {
   text-align: center;
-  color: #555;
+  color: var(--text-disabled);
   padding: 60px 20px;
   font-size: 0.95rem;
 }
@@ -16,27 +16,27 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #1a1a28;
-  border: 1px solid #2a2a3a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
   padding: 14px 16px;
   transition: border-color 0.15s;
 }
 
-.task-item:hover { border-color: #4a4a6a; }
+.task-item:hover { border-color: var(--border-hover); }
 
 .task-item.done .task-title {
   text-decoration: line-through;
-  color: #555;
+  color: var(--text-disabled);
 }
 
 .task-check {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  border: 2px solid #6c5ce7;
+  border: 2px solid var(--accent);
   background: none;
-  color: #6c5ce7;
+  color: var(--accent);
   font-size: 0.75rem;
   cursor: pointer;
   flex-shrink: 0;
@@ -47,7 +47,7 @@
 }
 
 .task-item.done .task-check {
-  background: #6c5ce7;
+  background: var(--accent);
   color: #fff;
 }
 
@@ -65,7 +65,7 @@
   flex-wrap: wrap;
 }
 
-.task-title { font-size: 0.95rem; color: #e0e0f0; }
+.task-title { font-size: 0.95rem; color: var(--text-primary); }
 
 .task-category {
   font-size: 0.7rem;
@@ -76,13 +76,13 @@
   white-space: nowrap;
 }
 
-.task-desc { font-size: 0.8rem; color: #777; }
-.task-date { font-size: 0.75rem; color: #6c5ce7; margin-top: 2px; }
+.task-desc { font-size: 0.8rem; color: var(--text-muted); }
+.task-date { font-size: 0.75rem; color: var(--accent); margin-top: 2px; }
 
 .task-delete {
   background: none;
   border: none;
-  color: #444;
+  color: var(--text-faint);
   cursor: pointer;
   font-size: 0.8rem;
   padding: 4px 6px;
@@ -90,4 +90,4 @@
   transition: color 0.15s;
 }
 
-.task-delete:hover { color: #e74c3c; }
+.task-delete:hover { color: var(--danger); }

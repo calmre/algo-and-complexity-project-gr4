@@ -5,12 +5,12 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #6c5ce7;
+  background: var(--fab-bg);
   border: none;
-  color: #fff;
+  color: var(--fab-text);
   font-size: 1.8rem;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.5);
+  box-shadow: 0 4px 20px var(--accent-glow);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@
 
 .fab:hover {
   transform: scale(1.08);
-  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.7);
+  box-shadow: 0 6px 28px var(--accent-glow-hover);
 }
 
 .fab span { line-height: 1; margin-top: -2px; }
