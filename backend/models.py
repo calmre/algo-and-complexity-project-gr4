@@ -2,6 +2,20 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
+class UserCreate(BaseModel):
+    username: str
+    password: str
+
+class UserResponse(BaseModel):
+    id: int
+    username: str
+    class Config:
+        from_attributes = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
 class TaskCreate(BaseModel):
     title: str
     description: Optional[str] = ""
@@ -23,6 +37,7 @@ class Task(BaseModel):
     due_date: Optional[datetime]
     completed: bool
     created_at: datetime
+    user_id: int
 
     class Config:
         from_attributes = True
